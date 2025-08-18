@@ -7,9 +7,18 @@ import '../service/api_paladins_hirez.dart';
 
 class UtilsFunctions {
   static Future<void> createSession() async {
-    var response = await ApiPaladinsHirez.createSession();
-    if (response != null) {
-      GlobalsVariables.sessionId = response;
+    try {
+      var response = await ApiPaladinsHirez.createSession();
+      if (response != null) {
+        GlobalsVariables.sessionId = response;
+        print('Session created successfully: $response');
+      } else {
+        print('Failed to create session - API returned null');
+      }
+    } catch (e) {
+      print('Error creating session: $e');
+      // Don't block the app if API is not available
+      GlobalsVariables.sessionId = '';
     }
   }
 

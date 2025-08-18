@@ -27,13 +27,12 @@ class _BtnCategoryChampionState extends State<BtnCategoryChampion> {
       width: 120,
       child: TextButton.icon(
         style: ButtonStyle(
-          elevation: MaterialStateProperty.all(10.0),
+          elevation: WidgetStateProperty.all(10.0),
           backgroundColor: widget.selected
-              ? MaterialStateProperty.all<Color>(
-                  GlobalsVariables.buttonBlueDark.withOpacity(0.6))
-              : MaterialStateProperty.all<Color>(
-                  GlobalsVariables.buttonBlueDark),
-          foregroundColor: MaterialStateProperty.all<Color>(
+              ? WidgetStateProperty.all<Color>(
+                  GlobalsVariables.buttonBlueDark.withValues(alpha: 0.6))
+              : WidgetStateProperty.all<Color>(GlobalsVariables.buttonBlueDark),
+          foregroundColor: WidgetStateProperty.all<Color>(
             GlobalsVariables.textButtonGrey,
           ),
           alignment: Alignment.topLeft,
@@ -45,7 +44,7 @@ class _BtnCategoryChampionState extends State<BtnCategoryChampion> {
         ),
         label: Text(
           widget.label,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Montserrat',
             color: GlobalsVariables.textButtonGrey,
             fontWeight: FontWeight.bold,
