@@ -19,15 +19,48 @@ class PaladinsWorld extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Paladins World',
       theme: ThemeData(
-        scaffoldBackgroundColor: GlobalsVariables.backgroundColorDark,
+        scaffoldBackgroundColor: GlobalsVariables.primaryDark,
         brightness: Brightness.dark,
-        primaryColor: const Color.fromARGB(255, 24, 110, 152),
-        primarySwatch: Colors.blueGrey,
+        primaryColor: GlobalsVariables.neonBlue,
+        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-          titleLarge: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        fontFamily: 'Montserrat',
+        textTheme: TextTheme(
+          displayLarge: const TextStyle(
+            fontSize: 72.0,
+            fontWeight: FontWeight.bold,
+            color: GlobalsVariables.textPrimary,
+            fontFamily: 'Montserrat',
+          ),
+          titleLarge: const TextStyle(
+            fontSize: 36.0,
+            fontStyle: FontStyle.italic,
+            color: GlobalsVariables.textPrimary,
+            fontFamily: 'Montserrat',
+          ),
+          bodyMedium: const TextStyle(
+            fontSize: 14.0,
+            color: GlobalsVariables.textPrimary,
+            fontFamily: 'Montserrat',
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(color: GlobalsVariables.textPrimary),
+          titleTextStyle: TextStyle(
+            color: GlobalsVariables.textPrimary,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Montserrat',
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: GlobalsVariables.neonBlue,
+            foregroundColor: GlobalsVariables.textPrimary,
+            textStyle: const TextStyle(fontFamily: 'Montserrat'),
+          ),
         ),
       ),
       initialRoute: '/',
