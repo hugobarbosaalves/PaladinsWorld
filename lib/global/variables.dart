@@ -9,7 +9,7 @@ class GlobalsVariables {
   static const String urlPrefix = 'https://api.paladins.com/paladinsapi.svc/';
   static const String devKey = ''; // Your dev key
   static const String authKey = ''; // Your auth key
-  static const String lg = '1'; // Language code (1 = English)
+  static const String lg = '10';
 
 // 1 - English
 // 2 - German

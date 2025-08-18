@@ -5,6 +5,7 @@ import '../../service/api_paladins_hirez.dart';
 import '../../translation/translations.dart';
 import '../widgets/neon_animations.dart';
 import '../widgets/tech_widgets.dart';
+import 'champion_details_page_new.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -465,28 +466,61 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Nome do campeão com efeito neon
                   Text(
                     champion['Name'] ?? 'Unknown',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: GlobalsVariables.textPrimary,
                       fontSize: 14,
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          color:
+                              GlobalsVariables.neonBlue.withValues(alpha: 0.8),
+                          blurRadius: 8,
+                          offset: const Offset(0, 0),
+                        ),
+                        Shadow(
+                          color:
+                              GlobalsVariables.neonBlue.withValues(alpha: 0.4),
+                          blurRadius: 16,
+                          offset: const Offset(0, 0),
+                        ),
+                      ],
                     ),
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    _getRoleName(champion['Roles']),
-                    style: TextStyle(
-                      color: _getRoleColor(champion['Roles']),
-                      fontSize: 10,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
+                  // Tipo do campeão com efeito neon da cor do role
+                  Builder(
+                    builder: (context) {
+                      Color roleColor = _getRoleColor(champion['Roles']);
+                      return Text(
+                        _getRoleName(champion['Roles']),
+                        style: TextStyle(
+                          color: roleColor,
+                          fontSize: 10,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w600,
+                          shadows: [
+                            Shadow(
+                              color: roleColor.withValues(alpha: 0.8),
+                              blurRadius: 6,
+                              offset: const Offset(0, 0),
+                            ),
+                            Shadow(
+                              color: roleColor.withValues(alpha: 0.4),
+                              blurRadius: 12,
+                              offset: const Offset(0, 0),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -539,17 +573,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   IconData _getRoleIcon(String? role) {
     switch (role) {
-      case 'Paladins Support':
-      case 'Paladins Supporter':
+      case 'Paladins Suporte':
         return Icons.favorite;
-      case 'Paladins Front Line':
-      case 'Paladins Tanker':
+      case 'Paladins Tanque':
         return Icons.shield;
-      case 'Paladins Flank':
-      case 'Paladins Flanker':
+      case 'Paladins Flanco':
         return Icons.flash_on;
-      case 'Paladins Damage':
-      case 'Paladins Damager':
+      case 'Paladins Dano':
         return Icons.whatshot;
       default:
         return Icons.person;
@@ -581,17 +611,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   String _getRoleName(String? role) {
     switch (role) {
-      case 'Paladins Support':
-      case 'Paladins Supporter':
+      case 'Paladins Suporte':
         return 'SUPPORT';
-      case 'Paladins Front Line':
-      case 'Paladins Tanker':
+      case 'Paladins Tanque':
         return 'TANK';
-      case 'Paladins Flank':
-      case 'Paladins Flanker':
+      case 'Paladins Flanco':
         return 'FLANK';
-      case 'Paladins Damage':
-      case 'Paladins Damager':
+      case 'Paladins Dano':
         return 'DAMAGE';
       default:
         return role?.replaceAll('Paladins ', '').toUpperCase() ?? 'UNKNOWN';
@@ -600,17 +626,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Color _getRoleColor(String? role) {
     switch (role) {
-      case 'Paladins Support':
-      case 'Paladins Supporter':
+      case 'Paladins Suporte':
         return GlobalsVariables.neonGreen;
-      case 'Paladins Front Line':
-      case 'Paladins Tanker':
+      case 'Paladins Tanque':
         return GlobalsVariables.neonBlue;
-      case 'Paladins Flank':
-      case 'Paladins Flanker':
+      case 'Paladins Flanco':
         return GlobalsVariables.neonPurple;
-      case 'Paladins Damage':
-      case 'Paladins Damager':
+      case 'Paladins Dano':
         return const Color(0xFFFF4444);
       default:
         return GlobalsVariables.textSecondary;
@@ -623,34 +645,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if (role == 'ALL') {
         displayChampions = List.from(champions);
       } else {
-        String targetRole;
+        // Mapeamento correto com roles em português da API
+        List<String> targetRoles = [];
         switch (role) {
           case 'SUPPORT':
-            targetRole = 'Paladins Support';
+            targetRoles = ['Paladins Suporte'];
             break;
           case 'TANK':
-            targetRole = 'Paladins Front Line';
+            targetRoles = ['Paladins Tanque'];
             break;
           case 'FLANK':
-            targetRole = 'Paladins Flank';
+            targetRoles = ['Paladins Flanco'];
             break;
           case 'DAMAGE':
-            targetRole = 'Paladins Damage';
+            targetRoles = ['Paladins Dano'];
             break;
           default:
-            targetRole = '';
+            targetRoles = [];
         }
+
         displayChampions = champions
-            .where((champion) =>
-                champion['Roles'] == targetRole ||
-                champion['Roles'] ==
-                    targetRole.replaceAll('Paladins ', 'Paladins ') +
-                        'r' || // Support -> Supporter
-                (targetRole == 'Paladins Flank' &&
-                    champion['Roles'] == 'Paladins Flanker') ||
-                (targetRole == 'Paladins Damage' &&
-                    champion['Roles'] == 'Paladins Damager'))
+            .where((champion) => targetRoles.contains(champion['Roles']))
             .toList();
+
+        print('Filtering for role: $role');
+        print('Target roles: $targetRoles');
+        print('Found ${displayChampions.length} champions');
+        print(
+            'Sample roles in data: ${champions.take(5).map((c) => c['Roles']).toList()}');
       }
     });
     _fadeController.reset();
@@ -659,7 +681,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   void _navigateToChampionDetails(dynamic champion) {
     // Navigate to champion details page
-    // Navigator.pushNamed(context, '/champion-details', arguments: champion);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChampionDetailsPageNew(champion: champion),
+      ),
+    );
   }
 
   void _getChampions() async {
@@ -683,6 +710,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         print('Champions loaded: ${result.length}');
         if (result.isNotEmpty) {
           print('Sample champion data: ${result[0]}');
+
+          // Debug: Imprimir todos os roles únicos encontrados
+          Set<String> uniqueRoles = result
+              .map((champion) => champion['Roles']?.toString() ?? 'No Role')
+              .toSet();
+          print('Unique roles found in API: $uniqueRoles');
         }
 
         setState(() {

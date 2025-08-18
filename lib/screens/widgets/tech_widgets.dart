@@ -200,6 +200,48 @@ class _TechCardState extends State<TechCard>
   }
 }
 
+// NeonDivider widget
+class NeonDivider extends StatelessWidget {
+  final double height;
+  final Color color;
+  final double thickness;
+  final EdgeInsets margin;
+
+  const NeonDivider({
+    Key? key,
+    this.height = 20,
+    this.color = const Color(0xFF00D4FF),
+    this.thickness = 1,
+    this.margin = const EdgeInsets.symmetric(vertical: 10),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      height: thickness,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.transparent,
+            color.withValues(alpha: 0.8),
+            color,
+            color.withValues(alpha: 0.8),
+            Colors.transparent,
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.6),
+            blurRadius: 8,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ParticleField extends StatefulWidget {
   final int particleCount;
   final Color particleColor;
@@ -320,43 +362,4 @@ class ParticleFieldPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-}
-
-class NeonDivider extends StatelessWidget {
-  final double height;
-  final Color color;
-  final double width;
-
-  const NeonDivider({
-    Key? key,
-    this.height = 2,
-    this.color = const Color(0xFF00D4FF),
-    this.width = double.infinity,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.transparent,
-            color,
-            color,
-            Colors.transparent,
-          ],
-          stops: const [0.0, 0.2, 0.8, 1.0],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.6),
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
-        ],
-      ),
-    );
-  }
 }
